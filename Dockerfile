@@ -4,7 +4,7 @@ FROM python:3.9-slim
 
 EXPOSE 8501
 
-WORKDIR /codegen-1
+WORKDIR /BlikAI
 
 COPY . .
 
@@ -22,4 +22,6 @@ RUN pip install git+https://github.com/huggingface/transformers \
     pip install accelerate \
     pip install sentencepiece 
 
-ENTRYPOINT ["streamlit", "run", "app.py", "model.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["streamlit", "run"]
+
+CMD ["blik.py"]

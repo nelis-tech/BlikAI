@@ -31,12 +31,12 @@ generate = st.button("GENERATE CODE")
 text_target = st.text_area(label = "Enter your instruction and leave the answer open for the generated code, you can use algorithms to generate code of a maximum length of 800 or you can put your code inside the AI and let the AI generate new code", value ="""Instruction: Generate python pytorch audio code for a GAN that generate MP3
 Answer:""", height = 300)
 models = st.selectbox('Choose model that you want to run', [GPT1, GPT2, GPT3])
-max_new_tokens = st.slider("Max Length", value = 400, min_value = 100, max_value=800, step=50)
+max_new_tokens = st.slider("Max Length", value = 500, min_value = 100, max_value=1000, step=50)
 temperature = st.slider("Temperature", value = 0.9, min_value = 0.0, max_value=1.0, step=0.1)
 
 def load_model():
-    device = torch.device("cpu")
-    model = AutoModelForCausalLM.from_pretrained(models, torch_dtype=torch.float32)
+    device = torch.device("cuda")
+    model = AutoModelForCausalLM.from_pretrained(models, torch_dtype=torch.float16)
     tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-j-6B") and AutoTokenizer.from_pretrained("Salesforce/codegen-2B-multi") and AutoTokenizer.from_pretrained("Salesforce/codegen-6B-multi") and AutoTokenizer.from_pretrained("Salesforce/codegen-16B-multi")
     return model, tokenizer, device
 
