@@ -35,8 +35,9 @@ max_new_tokens = st.slider("Max Length", value = 500, min_value = 100, max_value
 temperature = st.slider("Temperature", value = 0.9, min_value = 0.0, max_value=1.0, step=0.1)
 
 def load_model():
-    device = torch.device("cuda")
-    model = AutoModelForCausalLM.from_pretrained(models, torch_dtype=torch.float16)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = AutoModelForCausalLM.from_pretrained(models)
+    model.to(device)
     tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-j-6B") and AutoTokenizer.from_pretrained("Salesforce/codegen-2B-multi") and AutoTokenizer.from_pretrained("Salesforce/codegen-6B-multi") and AutoTokenizer.from_pretrained("Salesforce/codegen-16B-multi")
     return model, tokenizer, device
 
@@ -44,7 +45,7 @@ def load_model():
 if generate:
     with st.spinner("AI is at work......"):
         model, tokenizer, device = load_model()
-        input_ids = tokenizer(text=text_target, return_tensors="pt").input_ids
+        input_ids = tokenizer(text=text_target, return_tensors="pt").input_ids.to(device)
         output_sequences = infer(input_ids, max_new_tokens, temperature)
         generated_ids = model.generate(output_sequences)
         generated_text = tokenizer.decode(generated_ids[0])
