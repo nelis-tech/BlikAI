@@ -25,3 +25,4 @@ RUN pip install git+https://github.com/huggingface/transformers \
 ENTRYPOINT ["streamlit", "run"]
 
 CMD ["blik.py"]
+
