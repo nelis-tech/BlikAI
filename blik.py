@@ -65,7 +65,7 @@ if generate:
         generated_ids = model.generate(output_sequences)
         bar.progress(90)
         generated_text = tokenizer.decode(generated_ids[0])
-        wp = Client('https://bliknotes.com/xmlrpc.php', 'Blik', '!Uk6fPu!5Qv*m24cKQvwz4YS')
+        wp = Client('https://yourwordpresswebsite.com/xmlrpc.php', 'Username', 'Password')
         post = WordPressPost()
         post.title = text_target
         post.content = """[code language="actionscript3"]""" + generated_text + """[/code]"""
